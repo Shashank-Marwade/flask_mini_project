@@ -1,0 +1,231 @@
+{% extends 'base.html' %} {% include 'header.html' %} {% block title %} Home
+Page {% endblock %} {% block body %}
+
+<div class="container">
+  <div class="row">
+    <div class="col md-12">
+      <div class="jumbotron p-3">
+        <h2>
+          Manage <b>Employees</b>
+          <button
+            type="button"
+            class="btn btn-success float-right"
+            data-toggle="modal"
+            data-target="#mymodalN"
+          >
+            Highest Salary
+          </button>
+          <button
+            type="button"
+            class="btn btn-success float-right"
+            data-toggle="modal"
+            data-target="#mymodal"
+          >
+            Add New Record
+          </button>
+        </h2>
+        {% with messages = get_flashed_messages() %} {% if messages %} {% for
+        msg in messages %} {{msg}} {% endfor %} {% endif %} {% endwith %}
+        <table class="table tale-hover table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Salary</th>
+            <th>Contact</th>
+            <th>Action</th>
+          </tr>
+          {% for row in employees %}
+          <tr>
+            <td>{{row.id}}</td>
+            <td>{{row.name}}</td>
+            <td>{{row.salary}}</td>
+            <td>{{row.phone}}</td>
+            <td>
+              <a
+                href="/update/{{row.id}}"
+                class="btn btn-warning btn-xs"
+                data-toggle="modal"
+                data-target="#modaledit{{row.id}}"
+                >Edit</a
+              >
+              <a
+                href="/delete/{{row.id}}"
+                class="btn btn-danger btn-xs"
+                onclick="return confirm('Are You Sure To Delete?')"
+                >Delete</a
+              >
+            </td>
+          </tr>
+          <!-- Modal Edit Employee-->
+          <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Update Employee Info</h4>
+                </div>
+
+                <div class="modal-body">
+                  <form action="{{url_for('update')}}" method="POST">
+                    <div class="form-group">
+                      <label>Name:</label>
+                      <input type="hidden" name="id" value="{{row.id}}" autocomplete="off"/>
+
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="name"
+                        value="{{row.name}}"
+                        autocomplete="off"
+                      />
+                    </div>
+
+                    <div class="form-group">
+                      <label>Salary:</label>
+
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="salary"
+                        value="{{row.salary}}"
+                        autocomplete="off"
+                      />
+                    </div>
+
+                    <div class="form-group">
+                      <label>Contact:</label>
+
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="phone"
+                        value="{{row.phone}}"
+                        autocomplete="off"
+                      />
+                    </div>
+
+                    <div class="form-group">
+                      <button class="btn btn-primary" type="submit">
+                        Update
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </table>
+      </div>
+
+      
+      <!--Nth Heighest Salary -->
+      <div id="mymodalN" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Nth Highest Salary</h4>
+            </div>
+            <div class="modal-body">
+              <form action="{{url_for('salary')}}" method="post">
+                <div class="form-group">
+                  <label>Nth Salary:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="N"
+                    autocomplete="off"
+                    required
+                  />
+                <div class="form-group">
+                  <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+            </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+        <!-- Modal Add Employee-->
+        <div id="mymodal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Add Employee</h4>
+              </div>
+              <div class="modal-body">
+                <form action="{{url_for('addemp')}}" method="post">
+                  <div class="form-group">
+                    <label>Name:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="name"
+                      autocomplete="off"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Salary:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="salary"
+                      autocomplete="off"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Contact:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="phone"
+                      
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-primary" type="submit">
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}
+</div>
