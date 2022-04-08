@@ -57,6 +57,7 @@ def delete(id):
 
 # Upadate
 @app.route("/update", methods=["POST"])
+# @app.route("/update", methods=["PUT"])
 def update():
     if request.method == "POST":
         emp = Employee.query.get(request.form.get("id"))
