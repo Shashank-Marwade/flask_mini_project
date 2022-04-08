@@ -1,5 +1,5 @@
 .vscode/
-__pycache__
-flaskenv
-dataEMP
+__pycache__/
+flaskenv/
+dataEMP.db
 temp.py
